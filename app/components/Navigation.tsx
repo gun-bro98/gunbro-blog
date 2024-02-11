@@ -16,7 +16,7 @@ function Navigation() {
       {folderNameList.map((f1) => {
         const secondFolderNameList = readdirSync(targetPath + f1);
         return (
-          <div>
+          <div key={f1}>
             <h3 className="text-normal font-bold text-sm">{f1}</h3>
             <ul className="flex flex-col gap-[20px] pt-[20px] pl-4">
               {secondFolderNameList.map((f2) => (
