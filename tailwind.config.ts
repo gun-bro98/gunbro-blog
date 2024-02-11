@@ -7,13 +7,24 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+    screens: {
+
+      'tablet': {min: "0px", max: "640px"},
+      // => @media (min-width: 640px) { ... }
+
+      'laptop': {min: "640px", max: "1280px"},
+      // => @media (min-width: 1024px) { ... }
+
+      'desktop': '1280px',
+      // => @media (min-width: 1280px) { ... }
     },
+    colors: {
+      'background': "#DCDCDC",
+      'base': "#4D4646",
+      'title': '#333030',
+      'white': '#fff',
+      'black': '#000'
+    }
   },
   plugins: [require('@tailwindcss/typography'),],
 };

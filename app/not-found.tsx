@@ -6,7 +6,7 @@ import Animation404 from "@/app/assets/lottie/Animation404.json";
 
 export default function NotFound() {
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center gap-3">
+    <div className="w-screen h-screen flex flex-col justify-center items-center gap-3 absolute top-0 left-0 z-50 bg-background]">
       <Lottie className="w-[100px] h-[100px]" animationData={Animation404} />
       <h2 className="text-5xl">404</h2>
       <Link className="text-center m-5" href="/">

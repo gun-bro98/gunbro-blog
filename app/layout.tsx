@@ -1,8 +1,55 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "./components/Header";
+import localFont from 'next/font/local';
+import Navigation from "./components/Navigation";
 
-const inter = Inter({ subsets: ["latin"] });
+const myFont = localFont({
+  src: [
+    {
+      path: '../app/assets/fonts/Pretendard-Thin.otf',
+      weight: '100',
+      style: 'normal',
+    },
+    {
+      path: '../app/assets/fonts/Pretendard-ExtraLight.otf',
+      weight: '200',
+      style: 'normal',
+    },
+    {
+      path: '../app/assets/fonts/Pretendard-Light.otf',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../app/assets/fonts/Pretendard-Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../app/assets/fonts/Pretendard-Medium.otf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../app/assets/fonts/Pretendard-SemiBold.otf',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../app/assets/fonts/Pretendard-Bold.otf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../app/assets/fonts/Pretendard-ExtraBold.otf',
+      weight: '800',
+      style: 'normal',
+    },
+  ],
+  display: "swap"
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +63,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${inter.className}`}>{children}</body>
+      <body className={`${myFont.className} tablet:px-8 laptop:px-[30px] max-w-5xl m-auto pb-36`}>
+        <Header />
+        <div className="flex gap-[90px]">
+          {children}
+          <Navigation />
+        </div>
+      </body>
     </html>
   );
 }
