@@ -42,8 +42,8 @@ export default function Home() {
       <section>
         <p className="text-sm py-10 font-normal text-title">최근에 올린글</p>
         <div className="tablet:flex-col tablet:gap-[20px] flex gap-[2%] flex-wrap">
-          {recentPosts.map((post) => (
-            <PreviewCard post={post} />
+          {recentPosts.map((post, key) => (
+            <PreviewCard key={key} post={post} />
           ))}
         </div>
       </section>

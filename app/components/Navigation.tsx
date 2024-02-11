@@ -20,7 +20,7 @@ function Navigation() {
             <h3 className="text-normal font-bold text-sm">{f1}</h3>
             <ul className="flex flex-col gap-[20px] pt-[20px] pl-4">
               {secondFolderNameList.map((f2) => (
-                <li className="list-disc text-normal font-normal">
+                <li key={f1 + f2} className="list-disc text-normal font-normal">
                   <Link href={`/category/${f1}/${f2}`}>{f2}</Link>
                 </li>
               ))}

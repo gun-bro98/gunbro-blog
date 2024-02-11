@@ -31,8 +31,8 @@ function Category({ params }: { params: { slug: string[] } }) {
       </h2>
       <div className="border-t pt-5 w-full mt-5 border-t-[#00000050]" />
       <div className="tablet:flex-col tablet:gap-[20px] flex gap-[2%] flex-wrap">
-        {postList.map((post) => (
-          <PreviewCard post={post} />
+        {postList.map((post, key) => (
+          <PreviewCard key={key} post={post} />
         ))}
       </div>
     </section>
