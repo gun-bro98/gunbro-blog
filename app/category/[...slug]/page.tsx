@@ -18,12 +18,9 @@ export const generateMetadata = ({
 
 function Category({ params }: { params: { slug: string[] } }) {
   const postList = allPosts.filter((post) => {
-    return post._raw.flattenedPath
-      .split("/")
-      .slice(1)
-      .join("/")
-      .includes(params.slug.join("/"));
+    return post._raw.flattenedPath.includes(params.slug.join("/"));
   });
+  if (postList.length === 0) return notFound();
   return (
     <section className="pt-8 w-full">
       <h2 className="text-normal text-sm font-bold">

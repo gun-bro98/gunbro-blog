@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "cl-dev": "contentlayer dev",
+    "cl-build": "contentlayer build",
     "dev": "next dev",
     "build": "contentlayer build && next build",
     "start": "next start",
