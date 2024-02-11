@@ -19,9 +19,22 @@ export const Post = defineDocumentType(() => ({
   },
 }));
 
+export const Introduce = defineDocumentType(() => ({
+  name: "Introduce",
+  filePathPattern: `introduce/**/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: { type: "string", required: true },
+    date: { type: "date", required: true },
+  },
+  computedFields: {
+    url: { type: "string", resolve: (post) => `/${post._raw.flattenedPath}` },
+  },
+}));
+
 export default makeSource({
   contentDirPath: "./content",
-  documentTypes: [Post],
+  documentTypes: [Post, Introduce],
   mdx: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [

@@ -7,16 +7,23 @@ function Navigation() {
   const folderNameList = readdirSync(targetPath);
 
   return (
-    <nav className="tablet:hidden w-[120px] flex-shrink-0 pt-[40px] flex flex-col gap-[40px]">
+    <nav className="w-[120px] flex-shrink-0 py-[40px] flex flex-col gap-[40px]">
+      <div>
+        <Link href="/introduce">
+          <h3 className="text-normal font-bold text-sm">소개</h3>
+        </Link>
+      </div>
       {folderNameList.map((f1) => {
         const secondFolderNameList = readdirSync(targetPath + f1);
         return (
           <div>
-            <h3 className="text-base font-bold text-sm">{f1}</h3>
+            <h3 className="text-normal font-bold text-sm">{f1}</h3>
             <ul className="flex flex-col gap-[20px] pt-[20px] pl-4">
-              {
-                secondFolderNameList.map((f2) => <li className="list-disc text-base font-normal"><Link href={`/category/${f2}`}>{f2}</Link></li>)
-              }
+              {secondFolderNameList.map((f2) => (
+                <li className="list-disc text-normal font-normal">
+                  <Link href={`/category/${f1}/${f2}`}>{f2}</Link>
+                </li>
+              ))}
             </ul>
           </div>
         );
