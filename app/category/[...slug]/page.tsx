@@ -4,9 +4,12 @@ import { notFound } from "next/navigation";
 import React from "react";
 
 export const generateStaticParams = async () =>
-  allPosts.map((post) => ({
-    slug: post._raw.flattenedPath.split("/").slice(1),
-  }));
+  allPosts.map((post) => {
+    console.info("[1]",post);
+    return ({
+      slug: post._raw.flattenedPath.split("/").slice(1),
+    })
+  });
 
 export const generateMetadata = ({
   params,
@@ -18,6 +21,7 @@ export const generateMetadata = ({
 
 function Category({ params }: { params: { slug: string[] } }) {
   const postList = allPosts.filter((post) => {
+    console.info("[2]", post);
     return post._raw.flattenedPath.includes(params.slug.join("/"));
   });
   if (postList.length === 0) return notFound();
