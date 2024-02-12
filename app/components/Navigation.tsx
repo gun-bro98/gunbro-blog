@@ -1,9 +1,12 @@
 import { readdirSync } from "fs";
 import Link from "next/link";
+import path from "path";
 import React from "react";
 
 function Navigation() {
-  const targetPath = "content/posts/";
+  //prodess.cwd는 node명령어를 호출한 절대경로를 알려준다.
+  //path.resolve는 경로를 합쳐주는 역할
+  const targetPath = path.resolve(process.cwd(), "content", "posts");
   const folderNameList = readdirSync(targetPath);
 
   return (
@@ -14,7 +17,7 @@ function Navigation() {
         </Link>
       </div>
       {folderNameList.map((f1) => {
-        const secondFolderNameList = readdirSync(targetPath + f1);
+        const secondFolderNameList = readdirSync(targetPath + "/" + f1);
         return (
           <div key={f1}>
             <h3 className="text-normal font-bold text-sm">{f1}</h3>
