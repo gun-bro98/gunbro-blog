@@ -1,7 +1,6 @@
+
 import { allPosts } from "@/.contentlayer/generated";
 import PreviewCard from "@/app/components/PreviewCard";
-import { notFound } from "next/navigation";
-import React from "react";
 
 export const generateStaticParams = async () =>
   allPosts.map((post) => ({
@@ -20,17 +19,16 @@ function Category({ params }: { params: { slug: string[] } }) {
   const postList = allPosts.filter((post) => {
     return post._raw.flattenedPath.includes(params.slug.join("/"));
   });
-  if (postList.length === 0) return notFound();
   return (
     <section className="pt-8 w-full">
       <h2 className="text-normal text-sm font-bold">
-        {params.slug.join(" - ")}
+        {params.slug.join(" / ")}
       </h2>
       <div className="border-t pt-5 w-full mt-5 border-t-[#00000050]" />
       <div className="tablet:flex-col tablet:gap-[20px] flex gap-[2%] flex-wrap">
-        {postList.map((post, key) => (
+        {postList.length > 0 ? postList.map((post, key) => (
           <PreviewCard key={key} post={post} />
-        ))}
+        )) : <div className="w-full h-[300px] flex justify-center items-center">아직 글이 없습니다.</div>}
       </div>
     </section>
   );
