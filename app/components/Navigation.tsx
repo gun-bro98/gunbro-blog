@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 function Navigation() {
-  const targetPath = "./content/posts/";
+  const targetPath = "content/posts/";
   const folderNameList = readdirSync(targetPath);
 
   return (

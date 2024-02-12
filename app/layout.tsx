@@ -65,14 +65,14 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${myFont.className} tablet:px-8 laptop:px-[30px] max-w-5xl m-auto pb-36`}>
         <Header>
-          {/* <Navigation /> */}
+          <Navigation />
           <div></div>
         </Header>
         <div className="flex gap-[90px]">
           {children}
-          {/* <div className="tablet:hidden">
+          <div className="tablet:hidden">
             <Navigation />
-          </div> */}
+          </div>
         </div>
       </body>
     </html>
