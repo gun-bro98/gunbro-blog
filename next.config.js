@@ -1,5 +1,8 @@
 // next.config.js
 const { withContentlayer } = require("next-contentlayer");
+const { copyFileSync, readdirSync, existsSync, mkdirSync } = require('fs');
+const { PHASE_PRODUCTION_BUILD } = require('next/constants');
+const path = require("path");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
