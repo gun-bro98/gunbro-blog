@@ -64,7 +64,7 @@ function Header({ children }: { children: ReactNode }) {
       </header>
       {/* 모바일 네비게이션 */}
       <div
-        className={`laptop:hidden desktop:hidden fixed top-0 right-0 z-50 w-screen h-screen bg-background ${
+        className={`mobile-navigation bg-background ${
           isShowMenu ? "" : "translate-x-full"
         } transition-transform duration-500 overflow-y-auto`}
       >

@@ -41,7 +41,7 @@ export default makeSource({
       [
         rehypePrettyCode,
         {
-          theme: "github-dark", // 코드작성시 적용할 테마
+          theme: "github-dark", // 코드작성시 적용할 테마 //참고: https://rehype-pretty-code.netlify.app/
         },
       ],
       rehypeHighlight, //순서가 중요함.

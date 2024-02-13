@@ -6,6 +6,14 @@
   --foreground-rgb: 51, 51, 48;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --sait: var(--android-safe-area-inset-top, env(safe-area-inset-top));
+  --saib: var(--android-safe-area-inset-bottom, env(safe-area-inset-bottom));
+  --sail: var(--android-safe-area-inset-left, env(safe-area-inset-left));
+  --sair: var(--android-safe-area-inset-right, env(safe-area-inset-right));
+  --sat: env(safe-area-inset-top, 20px);
+  --sar: env(safe-area-inset-right, 20px);
+  --sab: env(safe-area-inset-bottom, 20px);
+  --sal: env(safe-area-inset-left, 20px);
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -16,13 +24,83 @@
   }
 } */
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: #DCDCDC;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+
+.mobile-navigation {
+  @apply laptop:hidden desktop:hidden fixed top-0 right-0 z-50 w-screen h-screen;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .mobile-navigation {
+    height: -webkit-fill-available;
+  }
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Box sizing border-box reset */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #dcdcdc;
+}
+
+/* 이미지 가져가는거 막기 */
+img {
+  -webkit-touch-callout: none; /* iOS Safari */
+  /* -webkit-user-select: none; Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version */
+}
+
+/* 여기서부터는 rehype-pretty-code 스타일 세팅 */
+
+/* pretty-code (shiki) recommend */
+/* .prose pre > code {
+  display: grid;
+} */
+
+/* Fenced Code block - hide horizontal scrollbar: webkit */
+/* .prose pre::-webkit-scrollbar {
+  display: none;
+} */
+/* Fenced Code block - hide horizontal scrollbar: mozila */
+/* .prose pre {
+  scrollbar-width: none;
+} */
+
+/* Fenced Code block - line style */
+/* .prose pre span[data-line] {
+  @apply inline-block px-4 py-0.5 leading-snug;
+} */

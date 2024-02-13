@@ -62,15 +62,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${myFont.className} tablet:px-8 laptop:px-[30px] max-w-5xl m-auto pb-36`}>
-        <Header>
-          <Navigation />
-          <div></div>
-        </Header>
-        <div className="flex gap-[90px]">
-          {children}
-          <div className="tablet:hidden">
+      <body className={`${myFont.className}`}>
+        <div className="tablet:px-5 laptop:px-[30px] max-w-5xl m-auto pb-32">
+          <Header>
             <Navigation />
+          </Header>
+          <div className="flex gap-[90px]">
+            {children}
+            <div className="tablet:hidden">
+              <Navigation />
+            </div>
           </div>
         </div>
       </body>

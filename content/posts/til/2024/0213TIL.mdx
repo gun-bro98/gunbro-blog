@@ -1,0 +1,77 @@
+---
+title: 0213TIL
+date: 2023-02-13
+image: "/images/20240213_after.jpeg"
+---
+
+### [오늘 배운 것](/posts/til/2024/0213TIL#TIL)
+
+- Nothing...
+
+## <br />
+
+<br />
+
+### [한 일](/posts/til/2024/0213TIL#WORK)
+
+- 회사 프로젝트 QA건 반영
+- 원하는 영상에서 홍보 카드 나오도록 만들기
+- 사파리 모바일 일 때 네비게이션 height 처리
+  - 네비게이션을 켜서 아래로 스크롤링 했을 때 끝에 있는 부분을 못 봤었음  
+    그래서 아래와 같이 코드를 작성하여 해결하기
+
+```css title="global.css"
+.mobile-navigation {
+  @apply laptop:hidden desktop:hidden fixed top-0 right-0 z-50 w-screen h-screen;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .mobile-navigation {
+    height: -webkit-fill-available;
+  }
+}
+```
+
+<div style={{ display: "flex", justifyContent: "space-evenly" }}>
+  <a
+    style={{ width: "47.5%", height: "100%" }}
+    href="/images/20240213_before.png"
+    target="_blank"
+  >
+    <img
+      width="100%"
+      height="100%"
+      src="/images/20240213_before.png"
+      title="변경 전 사진"
+      alt="변경 전 사진"
+    />
+  </a>
+  <br />
+  <a style={{width: '47.5%', height: '100%'}} href="/images/20240213_before.png" target="_blank">
+    <img
+      width="100%"
+      height="100%"
+      src="/images/20240213_after.jpeg"
+      title="변경 후 사진"
+      alt="변경 후 사진"
+    />
+  </a>
+</div>
+
+## <br />
+
+<br />
+
+### [하루 총평](/posts/til/2024/0213TIL#EVALUATION)
+
+오늘 하루는 다른 날보단(?) 상대적으로 쉽게 흘러갔다.  
+QA건이 해결하기 어려운게 아니기 때문이다.  
+새로운 UI가 나와서 기존에 없던 기능을 만들어야 한다면 다시 바빠질 것 같다.
+
+평소라면, 많이 배워서 TIL에 많이 적었을텐데 하필 QA건을 살피는 시간이라 아직은 없다.  
+시간만 있다면, **커스텀 바텀시트**와 **NextJS Image 컴포넌트**에 대해서 블로그에서 다루고 싶다.
+
+그리고 원래 **자바스크립트 딥 다이브**도 읽을려고 했는데, 읽지는 못할 것 같다.
+
+이론과 실습 모두 함께 가져가야하는 것이기 때문에 **베이스 시간**은 **자바스크립트 딥 다이브**에 초점을 두고,  
+널널한 시간에는 실습 위주로 해보자!

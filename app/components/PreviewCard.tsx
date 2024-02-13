@@ -10,7 +10,7 @@ interface PreviewCardProps {
 function PreviewCard({ post }: PreviewCardProps) {
   return (
     // 비율 유지해주는 컨테이너
-    <Link href={"/" +post._raw.flattenedPath} className=" tablet:pt-[100%] tablet:w-[100%] tablet:mb-0 bg-white pt-[32%] w-[32%] relative rounded-[5px] overflow-hidden mb-[2%]">
+    <Link href={"/" +post._raw.flattenedPath} className="tablet:pt-[100%] tablet:w-[100%] tablet:mb-0 bg-white pt-[32%] w-[32%] relative rounded-[5px] overflow-hidden mb-[2%] border-[1px] border-solid border-[#e5e5e5]">
       <div className="absolute left-0 top-0 w-full h-full">
         <div className="absolute left-0 top-0 w-full h-2/3">
           <Image
