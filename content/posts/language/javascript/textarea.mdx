@@ -1,0 +1,49 @@
+---
+title: Textarea 태그 사용시 자동 높이 조절
+date: 2023-02-19
+image: "/images/20240219_textarea_result.png"
+tag: '#javascript #html'
+---
+
+개발을 하다보면, 장문의 글을 써야할 때가 있습니다.
+그럴 때 textarea 태그를 써서 해결합니다.
+
+```html
+<textarea
+  rows="5"
+  style="border: 1px solid black; resize: none;"
+  placeholder="안녕하세요"
+></textarea>
+```
+
+해당 코드는 5줄을 넘어갔을 때 스크롤을 만들게 됩니다.
+
+항상 예상하고 rows에 값을 넣을 수는 없습니다.
+
+그런 경우에는 아래와 같이 javascript와 혼용해서 사용해야합니다.
+
+```html
+<body>
+  <textarea
+    id="main-text"
+    oninput="onInputHandler()"
+    onchange="onInputHandler()"
+    style="border: 1px solid black; resize: none; overflow-y: hidden;"
+    placeholder="안녕하세요"
+  ></textarea>
+</body>
+<script>
+  function onInputHandler() {
+    const mainText = document.querySelector("#main-text");
+    mainText.style.height = "auto";
+    mainText.style.height = `${mainText.scrollHeight}px`;
+
+    window.scrollTo({ top: mainText.scrollHeight });
+  }
+</script>
+```
+
+아래는 다른 예시지만, 위와 같은 원리로 적용했습니다.
+
+<img width='100%' height='100%' src='/images/20240219_textarea_result.png' />
+
