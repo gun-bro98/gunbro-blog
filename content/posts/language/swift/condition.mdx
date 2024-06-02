@@ -1,0 +1,52 @@
+---
+title: if문 사용법
+date: 2024-06-02
+tag: '#swift'
+---
+
+### 일반적으로 사용하는 조건문
+
+```swift
+import UIKit
+
+//다크모드 여부
+var isDarkMode: Bool = true
+
+
+// 괄호와 비교연산자를 사용한 조건문
+if (isDarkMode == true) {
+    print("다크모드 입니다.")
+} else {
+    print("다크모드가 아닙니다.")
+}
+
+// 비교연산자만 사용한 조건문
+if isDarkMode == true {
+    print("다크모드 입니다.")
+} else {
+    print("다크모드가 아닙니다.")
+}
+
+// 비교연산자와 괄호를 생략한 조건문
+if isDarkMode {
+    print("다크모드 입니다.")
+} else {
+    print("다크모드가 아닙니다.")
+}
+
+```
+
+### 삼항연산자를 사용하는 조건문
+
+```swift
+import UIKit
+
+//다크모드 여부
+var isDarkMode: Bool = true
+
+var title : String = isDarkMode == true ? "다크모드입니다." : "다크모드 아닙니다."
+// 아래와 같이 문자열 출력시 문자열안에 변수를 포함시킬 수 있습니다.
+print("title: \(title)")
+```
+
+이와 같이 조건문을 여러 방법으로 사용할 수 있습니다.

@@ -46,6 +46,10 @@ const navigationDataList: NavigationDataListType = [
         link: "/typescript",
         name: "typescript",
       },
+      {
+        link: "/swift",
+        name: "swift",
+      }
     ],
   },
   {
