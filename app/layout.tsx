@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from 'next/font/local';
 import Header from "./components/Header";
 import Navigation from "./components/Navigation";
@@ -55,6 +55,11 @@ export const metadata: Metadata = {
   description: "거녕이의 블로그",
   themeColor: "#dcdcdc"
 };
+
+export const viewport: Viewport = {
+  themeColor: '#dcdcdc',
+}
+
 
 export default function RootLayout({
   children,
