@@ -53,6 +53,7 @@ const myFont = localFont({
 export const metadata: Metadata = {
   title: "Gunbro Blog",
   description: "거녕이의 블로그",
+  themeColor: "#dcdcdc"
 };
 
 export default function RootLayout({
