@@ -1,7 +1,4 @@
-import { readdirSync } from "fs";
 import Link from "next/link";
-import path from "path";
-import React from "react";
 
 type NavigationDataListType = {
   category: string;
@@ -49,7 +46,7 @@ const navigationDataList: NavigationDataListType = [
       {
         link: "/swift",
         name: "swift",
-      }
+      },
     ],
   },
   {

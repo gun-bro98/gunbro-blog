@@ -4,7 +4,6 @@ import { compareDesc, format, parseISO } from "date-fns";
 import { allPosts, Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import mdxComponents from "./components/MdxComponents";
-import PaintBlock from "./components/PaintBlock";
 import PreviewCard from "./components/PreviewCard";
 
 function PostCard(post: Post) {
@@ -38,7 +37,6 @@ export default function Home() {
   ).slice(0, 6);
   return (
     <div className="pt-8 w-full">
-      <PaintBlock />
       <section>
         <p className="text-sm py-10 font-normal text-title">최근에 올린글</p>
         <div className="tablet:flex-col tablet:gap-[20px] flex gap-[2%] flex-wrap">
