@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://blog.gunbro.kr/
+
+# Sitemaps
+Sitemap: https://blog.gunbro.kr/sitemap.xml
