@@ -4,6 +4,7 @@ import { allPosts } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import mdxComponents from "@/app/components/MdxComponents";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 export const generateStaticParams = async () =>
   allPosts.map((post) => ({
@@ -14,7 +15,7 @@ export const generateMetadata = ({
   params,
 }: {
   params: { slug: string[] };
-}) => {
+}): Metadata => {
   const post = allPosts.find((post) => {
     return (
       post._raw.flattenedPath.split("/").slice(1).join("/") ===
@@ -22,7 +23,17 @@ export const generateMetadata = ({
     );
   });
   if (!post) notFound();
-  return { title: post.title };
+  return {
+    title: post.title,
+    description: "꾸준한 성장을 기록하기 위한 gunbro의 블로그입니다.",
+    keywords: ["블로그", "gunbro", "개발"],
+    openGraph: {
+      title: "꾸준한 성장을 기록하기 위한 gunbro의 블로그입니다.",
+      description: "꾸준한 성장을 기록하기 위한 gunbro의 블로그입니다.",
+      images: "/images/icon/og-image.svg",
+      url: "https://blog.gunbro.kr/",
+    },
+  };
 };
 
 const PostLayout = ({ params }: { params: { slug: string[] } }) => {

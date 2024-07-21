@@ -8,7 +8,17 @@ export const generateMetadata = ({}) => {
     return introduce._raw.flattenedPath === "introduce";
   });
   if (!introduce) notFound();
-  return { title: "Gunbro Blog - 소개" };
+  return {
+    title: "Gunbro Blog - 소개",
+    description: "꾸준한 성장을 기록하기 위한 gunbro의 블로그입니다.",
+    keywords: ["블로그", "gunbro", "개발"],
+    openGraph: {
+      title: "꾸준한 성장을 기록하기 위한 gunbro의 블로그입니다.",
+      description: "꾸준한 성장을 기록하기 위한 gunbro의 블로그입니다.",
+      images: "/images/icon/og-image.svg",
+      url: "https://blog.gunbro.kr/",
+    },
+  };
 };
 
 function Introdue() {
