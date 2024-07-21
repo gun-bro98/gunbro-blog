@@ -36,7 +36,7 @@ export const generateMetadata = (): Metadata => {
     openGraph: {
       title: "꾸준한 성장을 기록하기 위한 gunbro의 블로그입니다.",
       description: "꾸준한 성장을 기록하기 위한 gunbro의 블로그입니다.",
-      images: '/images/icon/og-image.svg',
+      images: 'https://blog.gunbro.kr/images/icon/og-image.svg',
       url: 'https://blog.gunbro.kr/'
     }
   };
