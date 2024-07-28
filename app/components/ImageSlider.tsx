@@ -83,6 +83,7 @@ function ImageSlider({
               currentImageListActiveIndex,
             });
           }}
+          
           cameraClass="w-full aspect-[1/1]"
           align={'prev'}
           circularFallback={'bound'}
@@ -90,7 +91,7 @@ function ImageSlider({
           moveType={['strict']}
         >
           {entireImageList.map((image, index) => (
-            <img className="w-full h-full object-cover" key={index} src={image} alt="" />
+            <img draggable="false" className="w-full h-full object-cover" key={index} src={image} alt="" />
           ))}
         </Flicking>
         <div className="absolute z-10 bottom-[18px] left-1/2 -translate-x-1/2 w-full h-[3px] bg-[#2222224d]">

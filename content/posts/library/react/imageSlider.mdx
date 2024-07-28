@@ -1,9 +1,320 @@
 ---
-title: '@egjs/react-flicking을 사용한 이미지 슬라이더'
+title: "어떤 그룹에 속한 이미지 슬라이더 만들기"
 date: 2024-07-028
-tag: '#react'
+tag: "#react #@egjs/react-flicking"
 ---
 
-## 이미지 슬라이더 만들기!
+## 소개
+
+- 해당 이미지 슬라이더 컴포넌트는 **이미지 그룹에 속하는 이미지들**이 있는 경우 사용되는 슬라이더입니다.
+- **이미지 그룹 사진**과 **이미지 그룹에 속하는 이미지들**은 미리 알고 있는 경우 사용이 가능합니다.
+- 사용한 라이브러리들
+  - @egjs/react-flicking
+  - lodash
+  - @types/lodash
+
+---
+
+## 겪었던 문제
+
+### @egjs/react-flicking의 문제
+
+- **onChanged** property 사용하면서 사진을 넘길 때 인디케이터가 넘어가는게 바로 적용이 안됩니다.
+  유저가 빠르게 넘기고, 놨을 때는 **onChnaged**는 한 번만 실행됩니다.
+- 위의 문제를 해결하기 위해 **onHoldEnd**에서 매개변수를 활용하였습니다.
+  **onHoldEnd**는 **onChanged**처럼 매개변수가 **direction**을 갖고 있지 않아서 **e.axesEvent.delta**를 사용하여 어느 방향으로 넘기고 있는지 파악했습니다.
+  하지만, **최종적으로 적용했을 때 깜빡임이 심해서 적용할 수 없었습니다.**  
+  (이문제 때문에 onChanged 프로퍼티 사용시 한 번의 변화만 감지하는 걸수도 있겠다는 생각이 들었습니다.. )
+---
+## 해결 방법
+
+- **onChanged**를 사용하고, 그 안에서 로직적으로 처리하였습니다. 아래의 onChanged 안의 코드가 핵심로직입니다.
+
+```tsx
+<Flicking
+  ref={mainFlickingRef}
+  onChanged={(e) => {
+    const index = e.index;
+    if (index === undefined) return;
+
+    let cumulativeIndex = 0; //누적되는 index
+    let groupIndex = 0; //그룹핑되는 index
+    let currentImageListActiveIndex = 0; //그룹내에서 활성화된 상대적 index
+
+    for (let i = 0; i < imageGroupList.length; i++) {
+      const groupLength = imageGroupList[i].length;
+      if (index < cumulativeIndex + groupLength) {
+        groupIndex = i;
+        currentImageListActiveIndex = index - cumulativeIndex;
+        break;
+      }
+      cumulativeIndex += groupLength;
+    }
+
+    if (imageCoverRefList.current?.[groupIndex]) {
+      imageCoverRefList.current[groupIndex].scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest",
+      });
+    }
+    onChnagedMainImageCallback({
+      currentImageList: imageGroupList[groupIndex],
+      groupIndex,
+      currentImageListActiveIndex,
+    });
+  }}
+  cameraClass="w-full aspect-[1/1]"
+  align={"prev"}
+  circularFallback={"bound"}
+  bound
+  moveType={["strict"]}
+>
+  {entireImageList.map((image, index) => (
+    <img
+      draggable="false"
+      className="w-full h-full object-cover"
+      key={index}
+      src={image}
+      alt=""
+    />
+  ))}
+</Flicking>
+```
+
+- **cumulativeIndex**는 이전 그룹 인덱스까지의 누적된 사진 수를 저장합니다.
+  **index**는 현재 바라보고 있는 **전체적인 index**로 **index - cumulativeIndex**는 계산을 하면, **활성화된 그룹내의 index**로 계산됩니다.
+- **scrollIntoView**를 사용하여, 밑에 있는 그룹 이미지의 초점을 맞춰줍니다.
+
+---  
+## 전체 코드
+
+```tsx title="ImageSlider.tsx"
+import Flicking from "@egjs/react-flicking";
+import { flatten } from "lodash";
+import { useEffect, useMemo, useRef } from "react";
+import "@egjs/react-flicking/dist/flicking.css";
+interface ImageSliderProps {
+  imageGroupList: string[][];
+  imageGroupCoverList: string[];
+  currentImageData: {
+    currentImageList: string[];
+    groupIndex: number;
+    currentImageListActiveIndex: number;
+  };
+  onChnagedMainImageCallback: (data: {
+    currentImageList: string[];
+    groupIndex: number;
+    currentImageListActiveIndex: number;
+  }) => void;
+}
+
+function ImageSlider({
+  imageGroupList,
+  imageGroupCoverList,
+  currentImageData,
+  onChnagedMainImageCallback,
+}: ImageSliderProps) {
+  const mainFlickingRef = useRef<Flicking>(null);
+  const indicatorBarRef = useRef<HTMLDivElement>(null);
+  const imageCoverRefList = useRef<HTMLImageElement[]>([]);
+
+  const entireImageList = useMemo(
+    () => flatten(imageGroupList),
+    [imageGroupList]
+  );
+
+  useEffect(() => {
+    if (!indicatorBarRef.current) return;
+    const indicator = indicatorBarRef.current;
+
+    // fadein 애니메이션 클래스 추가
+    indicator.classList.add("animate-fadein");
+
+    // 애니메이션 클래스 제거
+    const animationEnd = () => {
+      indicator.classList.remove("animate-fadein");
+      indicator.removeEventListener("animationend", animationEnd);
+    };
+
+    indicator.addEventListener("animationend", animationEnd);
+  }, [currentImageData.currentImageListActiveIndex]);
+
+  return (
+    <div className="w-full">
+      <div className="relative w-full">
+        <Flicking
+          ref={mainFlickingRef}
+          onChanged={(e) => {
+            const index = e.index;
+            if (index === undefined) return;
+
+            let cumulativeIndex = 0;
+            let groupIndex = 0;
+            let currentImageListActiveIndex = 0;
+
+            for (let i = 0; i < imageGroupList.length; i++) {
+              const groupLength = imageGroupList[i].length;
+              if (index < cumulativeIndex + groupLength) {
+                groupIndex = i;
+                currentImageListActiveIndex = index - cumulativeIndex;
+                break;
+              }
+              cumulativeIndex += groupLength;
+            }
+
+            if (imageCoverRefList.current?.[groupIndex]) {
+              imageCoverRefList.current[groupIndex].scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+                inline: "nearest",
+              });
+            }
+            onChnagedMainImageCallback({
+              currentImageList: imageGroupList[groupIndex],
+              groupIndex,
+              currentImageListActiveIndex,
+            });
+          }}
+          cameraClass="w-full aspect-[1/1]"
+          align={"prev"}
+          circularFallback={"bound"}
+          bound
+          moveType={["strict"]}
+        >
+          {entireImageList.map((image, index) => (
+            <img
+              draggable="false"
+              className="w-full h-full object-cover"
+              key={index}
+              src={image}
+              alt=""
+            />
+          ))}
+        </Flicking>
+        <div className="absolute z-10 bottom-[18px] left-1/2 -translate-x-1/2 w-full h-[3px] bg-[#2222224d]">
+          <div
+            ref={indicatorBarRef}
+            className="h-full bg-[#222222] transition-transform"
+            style={{
+              width: `${100 / currentImageData.currentImageList.length}%`,
+              transform: `translateX(${
+                currentImageData.currentImageListActiveIndex * 100
+              }%)`,
+            }}
+          />
+        </div>
+      </div>
+      <div
+        className="mt-5 w-full overflow-x-auto flex gap-2 px-3 no-scrollbar"
+        onTouchMove={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        {imageGroupCoverList.map((item, i) => (
+          <img
+            loading="lazy"
+            ref={(ref) =>
+              ref ? (imageCoverRefList.current[i] = ref) : undefined
+            }
+            onClick={() => {
+              mainFlickingRef.current
+                ?.moveTo(entireImageList.indexOf(imageGroupList[i][0]))
+                .catch((err) => null);
+            }}
+            width={58}
+            height={58}
+            key={item}
+            className={`object-cover border ${
+              currentImageData.groupIndex === i
+                ? "border-[#222]"
+                : "border-[#ebebeb]"
+            }`}
+            src={item}
+            alt=""
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default ImageSlider;
+```
+
+```tsx title="Page.tsx"
+"use client";
+
+import React, { useEffect, useState } from "react";
+import ImageSlider from "./ImageSlider";
+
+const imageGroupList = [
+  [
+    "https://picsum.photos/237/200",
+    "https://picsum.photos/240/200",
+    "https://picsum.photos/243/200",
+  ],
+  ["https://picsum.photos/238/200", "https://picsum.photos/241/200"],
+  [
+    "https://picsum.photos/230/200",
+    "https://picsum.photos/231/200",
+    "https://picsum.photos/232/200",
+  ],
+  ["https://picsum.photos/233/200", "https://picsum.photos/234/200"],
+  ["https://picsum.photos/260/200", "https://picsum.photos/261/200"],
+  ["https://picsum.photos/262/200", "https://picsum.photos/263/200"],
+  ["https://picsum.photos/264/200", "https://picsum.photos/265/200"],
+];
+
+const imageGroupCoverList = [
+  "https://picsum.photos/250/200",
+  "https://picsum.photos/251/200",
+  "https://picsum.photos/252/200",
+  "https://picsum.photos/253/200",
+  "https://picsum.photos/254/200",
+  "https://picsum.photos/255/200",
+  "https://picsum.photos/256/200",
+];
+
+function Page() {
+  const [currentImageData, setCurrentImageData] = useState<{
+    currentImageList: string[];
+    groupIndex: number;
+    currentImageListActiveIndex: number;
+  }>({
+    currentImageList: imageGroupList[0],
+    groupIndex: 0,
+    currentImageListActiveIndex: 0,
+  });
+
+  return (
+    <div className="w-full">
+      <ImageSlider
+        onChnagedMainImageCallback={({
+          currentImageList,
+          groupIndex,
+          currentImageListActiveIndex,
+        }) => {
+          setCurrentImageData({
+            currentImageList,
+            groupIndex,
+            currentImageListActiveIndex,
+          });
+        }}
+        currentImageData={currentImageData}
+        imageGroupList={imageGroupList}
+        imageGroupCoverList={imageGroupCoverList}
+      />
+    </div>
+  );
+}
+
+export default Page;
+```
 
 <ImageSliderExample />
+--- 
+## 마치며..
+
+이번에 기본적으로 슬라이드 기능이 있는 라이브러리를 사용했지만, 최소한의 슬라이드 기능만 있는 컴포넌트를 만들어보면 좋을 것 같습니다.
+아무래도.. **@egjs/react-flicking** 라이브러리가 용량(**약 154k**)이 크다 보니 부담스러울 수도 있습니다.
