@@ -12,8 +12,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@egjs/react-flicking": "^4.11.3",
     "contentlayer": "^0.3.4",
     "date-fns": "^3.3.1",
+    "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "next": "14.1.0",
     "next-contentlayer": "^0.3.4",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

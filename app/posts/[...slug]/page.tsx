@@ -5,6 +5,7 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 import mdxComponents from "@/app/components/MdxComponents";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import ImageSliderExample from "@/app/components/ImageSliderExample";
 
 export const generateStaticParams = async () =>
   allPosts.map((post) => ({
@@ -60,7 +61,7 @@ const PostLayout = ({ params }: { params: { slug: string[] } }) => {
           </time>
           <h1 className="text-3xl font-bold">{post.title}</h1>
         </div>
-        <MDXContent components={mdxComponents} />
+        <MDXContent components={{mdxComponents, ImageSliderExample}} />
       </article>
     </section>
   );
