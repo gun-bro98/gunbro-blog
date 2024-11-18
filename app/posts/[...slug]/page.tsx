@@ -1,11 +1,12 @@
 // app/posts/[slug]/page.tsx
-import { format, parseISO } from "date-fns";
-import { allPosts } from "contentlayer/generated";
-import { useMDXComponent } from "next-contentlayer/hooks";
-import mdxComponents from "@/app/components/MdxComponents";
-import { notFound } from "next/navigation";
-import { Metadata } from "next";
+import GiscusComments from "@/app/components/GiscusComments";
 import ImageSliderExample from "@/app/components/ImageSliderExample";
+import mdxComponents from "@/app/components/MdxComponents";
+import { allPosts } from "contentlayer/generated";
+import { format, parseISO } from "date-fns";
+import { Metadata } from "next";
+import { useMDXComponent } from "next-contentlayer/hooks";
+import { notFound } from "next/navigation";
 
 export const generateStaticParams = async () =>
   allPosts.map((post) => ({
@@ -61,7 +62,10 @@ const PostLayout = ({ params }: { params: { slug: string[] } }) => {
           </time>
           <h1 className="text-3xl font-bold">{post.title}</h1>
         </div>
-        <MDXContent components={{mdxComponents, ImageSliderExample}} />
+        <MDXContent components={{ mdxComponents, ImageSliderExample }} />
+        <div className="p-4 mt-28">
+          <GiscusComments />
+        </div>
       </article>
     </section>
   );
