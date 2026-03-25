@@ -1,0 +1,109 @@
+---
+title: "Claude Code 명령어 간단 정리"
+date: 2026-03-25
+tag: "#claude #claude-code #ai #cli"
+---
+
+## 소개
+
+**Claude Code**는 Anthropic이 만든 AI 코딩 CLI 도구입니다.
+터미널에서 `claude` 명령어로 실행하며, 슬래시 명령어(`/`)를 통해 다양한 기능을 사용할 수 있습니다.
+
+---
+
+## 자주 쓰는 슬래시 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `/help` | 사용 가능한 명령어 목록 확인 |
+| `/clear` | 현재 대화 컨텍스트 초기화 |
+| `/compact` | 대화 내용을 요약하여 컨텍스트 절약 |
+| `/quit` | Claude Code 종료 |
+| `/cost` | 현재 세션의 토큰 사용량 및 비용 확인 |
+| `/status` | 현재 상태 확인 |
+| `/review` | 코드 리뷰 요청 |
+| `/commit` | 변경사항 커밋 (커밋 메시지 자동 생성) |
+
+---
+
+## 자주 쓰는 CLI 옵션
+
+```bash
+# 기본 실행
+claude
+
+# 한 번만 실행하고 종료 (non-interactive)
+claude -p "질문 내용"
+
+# 파일을 컨텍스트로 추가
+claude --context ./src/index.ts
+
+# 특정 모델 사용
+claude --model claude-opus-4-6
+
+# 디버그 모드
+claude --debug
+```
+
+---
+
+## 퍼미션 모드
+
+Claude Code는 파일 수정, 명령어 실행 등을 할 때 사용자에게 확인을 요청합니다.
+이 동작을 아래 옵션으로 제어할 수 있습니다.
+
+| 옵션 | 설명 |
+|------|------|
+| `--dangerously-skip-permissions` | 모든 권한 확인 생략 (주의해서 사용) |
+| `--allowedTools` | 허용할 도구 목록 지정 |
+
+---
+
+## CLAUDE.md 파일
+
+프로젝트 루트에 `CLAUDE.md` 파일을 두면 Claude Code가 항상 해당 내용을 읽어 컨텍스트로 활용합니다.
+
+```markdown
+# 프로젝트 개요
+- Next.js 14 + TypeScript 기반 블로그
+- 스타일: TailwindCSS
+
+# 코딩 규칙
+- 함수형 컴포넌트만 사용
+- 변수명은 camelCase
+```
+
+이를 통해 매번 프로젝트 설명을 반복하지 않아도 됩니다.
+
+---
+
+## 훅(Hooks) 설정
+
+`settings.json`에 훅을 설정하면 특정 이벤트 발생 시 자동으로 명령어를 실행할 수 있습니다.
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm run lint"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+위 예시는 파일 수정 후 자동으로 린트를 실행합니다.
+
+---
+
+## 마치며
+
+Claude Code는 터미널 기반이지만 VS Code, Cursor 등 IDE와도 통합해서 사용할 수 있습니다.
+명령어 몇 개만 익혀도 개발 생산성을 크게 높일 수 있으니 한 번 써보세요!
